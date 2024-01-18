@@ -1,0 +1,6 @@
+ReWriteEngine On
+ReWriteCond %{REQUEsT_URI} !-f
+ReWriteCond %{REQUEsT_URI} !-d
+ReWriteCond %{REQUEsT_URI} !-|
+
+ReWriteRule ^ index.php
