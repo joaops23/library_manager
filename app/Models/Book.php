@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Library extends \PDO
+class Book extends \PDO
 {
     private $pdo;
     public $tableName = "books";
@@ -28,9 +28,18 @@ class Library extends \PDO
             $cond["$w"] = $value;
         }
 
-        $sql = "select $fields from $tableName where 1 $where_str";
+        $sql = "select $fields from $this->tableName where 1 $where_str";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($cond);
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function selectAll(){
+        $sql = "select * from $this->tableName";
+        var_dump($sql);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }

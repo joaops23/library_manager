@@ -4,24 +4,21 @@ namespace App;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Controllers\BookController;
 
-use Model\Library;
-
+require_once(_APP. "/Controllers/BookController.php");
 
 $app->get("/", function(Request $request, Response $response, array $args) {
     $view = Twig::fromRequest($request);
     return $view->render($response, "dashboard.html");
 });
 
-$app->get("/books", function(Request $request, Response $response, array $args) {
-    # busca os livros e retorna o template junto com a lista de livros
-    $database = new Library();
-    $view = Twig::fromRequest($request);
-    return $view->render($response, "books.html");
-});
+# Rotas de livros
+$app->get("/books", [BookController::class, 'index'])->setName("indexBook"); # Listagem e renderização 
 
-$app->post("/login", function(Request $request, Response $response, array $args){
-    $database = new Library();
+
+$app->post("/books", function(Request $request, Response $response, array $args){ # Inclusão
+    $database = new Book();
     $contents = process($request->getBody()->getContents());
     
     $database->select("users", $contents); # Verifica se o usuário existe no sistema
@@ -34,6 +31,11 @@ $app->post("/login", function(Request $request, Response $response, array $args)
     }
 });
 
+#busca por id
+
+#alteração
+
+#deleção
 
 function process($args){
     $result = [];
