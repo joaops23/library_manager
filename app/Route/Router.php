@@ -4,6 +4,7 @@ namespace App;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use Slim\Routing\RouteCollectorProxy;
 use Controllers\BookController;
 
 require_once(_APP. "/Controllers/BookController.php");
@@ -14,22 +15,15 @@ $app->get("/", function(Request $request, Response $response, array $args) {
 });
 
 # Rotas de livros
-$app->get("/books", [BookController::class, 'index'])->setName("indexBook"); # Listagem e renderização 
+$app->group("/books", function(RouteCollectorProxy $group){
 
-
-$app->post("/books", function(Request $request, Response $response, array $args){ # Inclusão
-    $database = new Book();
-    $contents = process($request->getBody()->getContents());
-    
-    $database->select("users", $contents); # Verifica se o usuário existe no sistema
-    if(count($database->select("users", $contents)) == 0){
-        $response->getBody()->write("Usuário não encontrado");
-        return $response;
-    } else {
-        $response->getBody()->write("Usuário encontrado");
-        return $response;
-    }
+    $group->get("", [BookController::class, 'index'])->setName("indexBook"); # Listagem e renderização 
+    $group->post("", [BookController::class, 'store']);# Inclusão
+    $group->delete("/{id}", [BookController::class, 'delete']);
+    $group->patch("/{id}", [BookController::class, 'update']);
 });
+
+
 
 #busca por id
 

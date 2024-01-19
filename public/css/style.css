@@ -1,0 +1,41 @@
+body {
+    width: 100%;
+    box-sizing: border-box;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.button-center {
+    text-align:center;
+    margin-top: 20px;
+}
+
+.panel-list{
+    display: flex;
+    width: 85%;
+    flex-direction: row ;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    margin-left: 5%;
+}
+
+.panel-list-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    width: 30%;
+    gap: 5px;
+    margin: 3px;
+
+    border: 1px solid;
+    border-radius: 10px;
+}
+
+.panel-button {
+    width: 100%;
+    margin-bottom: 5px;
+}

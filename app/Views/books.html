@@ -1,12 +1,64 @@
 {{ include('index.html')}}
+<script type="text/javascript" src="js/books.js"></script>
+<div class="container">
+    <div class="panel-list">
+        <div class="button-center panel-button">
+            <button class="btn btn-primary" data-bs-target="#modalBook" data-bs-toggle="modal" onclick="clearModal()">+ Novo</button>
+        </div>
+        {% for item in data %}
+            <div class="panel-list-item">
+                <h5>{{item['title']}}</h5>
+                <p>{{item['description']}}</p>
+                <p><b>Autor:</b><i>{{item['author']}}</i></p>
+                <div class="button-center panel-button">
+                    <button class="btn btn-primary" data-bs-target="#modalBook" data-bs-toggle="modal" onclick="modalUpdateBook(`{{item['id']}}`, `{{item['title']}}`, `{{item['description']}}`, `{{item['author']}}`)">Editar</button>
+                    <button class="btn btn-danger" onclick="deleteBook(`{{item['id']}}`)">Excluir</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 
-<form method="POST" action="/login">
-    <label>Login</label>
-    <input type="text" name="login" />
+    <div class="modal fade" id="modalBook" aria-hidden="true" aria-labelledby="modalBookLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalBookLabel">Inserir novo Livro</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form method="post" id="newBook">
+                <input type="hidden" name="id" id="modalId" />
+                <div class="form-group">
+                    <label for="title">Título</label>
+                    <input type="text" class="form-control" id="modalTitle" name="title">
+                    
+                    <label for="description">Descrição</label>
+                    <input type="text" class="form-control" id="modalDescription" name="description">
 
-    <label>Senha</label>
-    <input type="password" name="password" />
-
-
-    <button type="submit">Enviar</button>
-</form>
+                    <label for="author">Autor</label>
+                    <input type="text" class="form-control" id="modalAuthor" name="author">
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#modalBook2" data-bs-toggle="modal" onclick="submitBook()">Enviar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalBook2" aria-hidden="true" aria-labelledby="modalBookLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="response">
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
