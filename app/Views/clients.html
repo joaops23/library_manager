@@ -1,0 +1,68 @@
+{{ include('index.html')}}
+
+<script type="text/javascript" src="js/clients.js"></script>
+<div class="container">
+    <div class="panel-list">
+        <div class="button-center panel-button">
+            <button class="btn btn-primary" data-bs-target="#modalClient" data-bs-toggle="modal" onclick="clearModal()">+ Novo</button>
+        </div>
+        {% for item in data %}
+            <div class="panel-list-item">
+                <h5><b>Cliente:</b>{{item['name']}}</h5>
+                <p><b>Email:</b>{{item['email']}}</p>
+                <p><b>id:</b><i>{{item['id']}}</i></p>
+                <div class="button-center panel-button">
+                    <button class="btn btn-primary" data-bs-target="#modalClient" data-bs-toggle="modal" onclick="modalUpdateClient(`{{item['id']}}`, `{{item['name']}}`, `{{item['phone']}}`, `{{item['email']}}`, `{{item['address']}}`)">Editar</button>
+                    <button class="btn btn-danger" onclick="deleteClient(`{{item['id']}}`)">Excluir</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="modalClient" aria-hidden="true" aria-labelledby="modalClientLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalClientLabel">Inserir novo Cliente</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form method="post" id="newClient">
+                <input type="hidden" name="id" id="modalId" />
+                <div class="form-group">
+                    <label for="Name">Nome</label>
+                    <input type="text" class="form-control" id="modalname" name="Name">
+                    
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" id="modalemail" name="Email">
+
+                    <label for="Phone">Telefone</label>
+                    <input type="text" class="form-control" id="modalphone" name="Phone">
+
+                    <label for="Address">Endereço</label>
+                    <input type="text" class="form-control" id="modaladdress" name="Address">
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#modalClient2" data-bs-toggle="modal" onclick="submitClient()">Enviar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalClient2" aria-hidden="true" aria-labelledby="modalClientLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="response">
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload();">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

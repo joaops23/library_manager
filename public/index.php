@@ -16,6 +16,7 @@ $twig = Twig::create('../app/views', ['cache' => false]);
 $app->add(TwigMiddleware::create($app, $twig));
 #implementar twig como template engine
 
+require_once(_APP. "/Controllers/Controller.php");
 require_once(_APP . "/Route/Router.php");
 
 $app->run();

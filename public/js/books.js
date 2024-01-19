@@ -40,7 +40,14 @@ function modalUpdateBook(id, title, description, author) {
     document.getElementById('modalId').value = id
 }
 
-function handleRequest(type, url, data = ''){
+function clearModal(){
+    document.getElementById('modalId').value = '';
+    document.getElementById('modalTitle').value = '';
+    document.getElementById('modalDescription').value = "";
+    document.getElementById('modalAuthor').value = ""; 
+}
+
+const handleRequest = (type, url, data = '') =>{
     //ajax
     $.ajax({
         type: type,
@@ -56,11 +63,4 @@ function handleRequest(type, url, data = ''){
             responseDiv.innerHTML = error;
         }
     })
-}
-
-function clearModal(){
-    document.getElementById('modalId').value = '';
-    document.getElementById('modalTitle').value = '';
-    document.getElementById('modalDescription').value = "";
-    document.getElementById('modalAuthor').value = ""; 
 }
