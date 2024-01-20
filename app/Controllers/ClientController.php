@@ -62,15 +62,15 @@ class ClientController extends Controller
     public function delete(Request $request, Response $response, Array $args){
         global $client;
         $id = $args['id'];
-        try{
-            $newClient = $client->delete($id);
+        $newClient = $client->delete($id);
 
+        if($newClient){
             $response->withStatus(201);
             $response->getBody()->write("Cliente id $newClient Deletado!");
             return $response;
-        } catch(err){
+        } else{
             $response->withStatus(500);
-            $response->getBody()->write("Erro ao tentar remover Cliente. Tente novamente!");
+            $response->getBody()->write("Não é possível remover cliente, confira se o mesmo possui livros alocados.");
             return $response;
         }
     }

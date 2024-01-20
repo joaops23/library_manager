@@ -55,10 +55,9 @@ class Client extends Model implements ModelInterface # Usando herança para reap
 
         if($stmtConsult->fetchColumn() == 0){ # Se não estiver locado, será excluído
             $this->deleteById($id);
+            return true;
         } else{
-            $response->withStatus(500);
-            $response->getBody()->write("Não é possível excluir um cliente que possui livro alocado!");
-            return $response;
+            return false;
         }
     }
 }

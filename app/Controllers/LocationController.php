@@ -53,6 +53,7 @@ class LocationController extends Controller {
             } else{
                 $response->withStatus(401);
                 $response->getBody()->write("Livro já alocado para este cliente!");
+                return $response;
             }
         }
         catch(err){

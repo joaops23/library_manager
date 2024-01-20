@@ -30,6 +30,10 @@ function deleteBook(id) { //deleta o livro referenciando por id
     if(!confirm("Deseja mesmo deletar este livro?")) {return ;};
 
     handleRequest('DELETE', `/books/${id}`)
+    const myModal = new bootstrap.Modal('#modalBook2', {
+        keyboard: false,
+      })
+      myModal.show()
 }
 
 function modalUpdateBook(id, title, description, author) {
@@ -56,7 +60,6 @@ const handleRequest = (type, url, data = '') =>{
         success: function(data) {
             let responseDiv = document.getElementById('response');
             responseDiv.innerHTML = data;
-            window.location.reload();
         },
         error: function(error) {
             let responseDiv = document.getElementById('response');

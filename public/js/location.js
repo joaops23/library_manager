@@ -39,6 +39,10 @@ function clearModal(){
 function devolution(id){
     if(!confirm('Deseja confirmar a devolução do livro alocado?')){ return; }
     handleRequest('put', `/locations/devolution/${id}`)
+    const myModal = new bootstrap.Modal('#modalLocation2', {
+        keyboard: false,
+      })
+      myModal.show()
 }
 
 const handleRequest = (type, url, data = '') =>{

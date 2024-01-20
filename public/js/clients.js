@@ -32,7 +32,10 @@ function deleteClient(id) { //deleta o Cliente referenciando por id
     if(!confirm("Deseja mesmo deletar este Cliente?")) {return ;};
 
     handleRequest('DELETE', `/clients/${id}`)
-    window.location.reload();
+    const myModal = new bootstrap.Modal('#modalClient2', {
+        keyboard: false,
+      })
+      myModal.show()
 }
 
 function modalUpdateClient(id, name, phone, email, address) {

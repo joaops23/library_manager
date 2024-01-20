@@ -40,13 +40,13 @@ class BookController extends Controller
     public function delete(Request $request, Response $response, Array $args){
         global $book;
         $id = $args['id'];
-        try{
-            $newBook = $book->delete($id);
-
+        $newBook = $book->delete($id);
+        
+        if($newBook){
             $response->withStatus(201);
             $response->getBody()->write("Livro id $newBook Deletado!");
             return $response;
-        } catch(err){
+        }else {
             $response->withStatus(500);
             $response->getBody()->write("Erro ao tentar remover livro. Tente novamente!");
             return $response;
