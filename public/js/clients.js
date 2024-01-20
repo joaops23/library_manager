@@ -1,5 +1,5 @@
 function submitClient() { // Insere novo Cliente
-    // resgata o título, autor e descrição do Cliente
+
     let name = document.getElementById('modalname').value;
     let email = document.getElementById('modalemail').value;
     let phone = document.getElementById('modalphone').value;

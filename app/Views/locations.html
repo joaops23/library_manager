@@ -1,0 +1,85 @@
+{{ include('index.html')}}
+
+<script type="text/javascript" src="js/location.js"></script>
+<div class="container">
+    <div class="panel-list">
+        <div class="button-center panel-button">
+            <button class="btn btn-primary" data-bs-target="#modalLocation" data-bs-toggle="modal" onclick="clearModal()">+ Novo</button>
+        </div>
+        {% for item in data %}
+            <div class="panel-list-item">
+                <h5><b>Locação </b>{{item['id']}}</h5>
+                <p><b>Cliente </b>{{item['client']}}</p>
+                <p><b>Livro</b><i>{{item['book']}}</i></p>
+                <p><b>Locado em: </b><i>{{item['locationDate']}}</i></p>
+                <p><b>Prazo: </b><i>{{item['term']}}</i> dias</p>
+                <small>
+                    {% if item['returned'] == '1' %}
+                    <span class="badge bg-success">Devolvido</span>
+                    {% else %}
+                    <span class="badge bg-warning">Locado</span>
+                    {% endif %}
+                </small>
+                <div class="button-center panel-button">
+                    {% if item['returned'] == '0' %}
+                    <button class="btn btn-success" onclick="devolution(`{{item['id']}}`)">Devolver</button>
+                    <button class="btn btn-danger" onclick="deleteLocation(`{{item['id']}}`)">Excluir</button>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="modalLocation" aria-hidden="true" aria-labelledby="modalLocationLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="modalLocationLabel">Inserir nova Locação</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <form method="post" id="newLocation">
+
+                <input type="hidden" name="id" id="modalId" />
+                <div class="form-group">
+                    <label for="modalclient">Cliente</label>
+                    <select name="modalclient" id="modalclient" class="form-control">
+                        {% for cli in clients %}
+                            <option value="{{cli['id']}}">{{cli['name']}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <label for="modalbook">Livro</label>
+                    <select name="modalbook" id="modalbook" class="form-control">
+                        {% for book in books %}
+                            <option value="{{book['id']}}">{{book['title']}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label for="term">Prazo para devolução(dias)</label>
+                    <input type="number" class="form-control" id="modalterm" name="term" min="0">
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#modalLocation2" data-bs-toggle="modal" onclick="submitLocation()">Enviar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalLocation2" aria-hidden="true" aria-labelledby="modalLocationLabel2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="response">
+            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="window.location.reload();">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

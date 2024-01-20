@@ -2,46 +2,17 @@
 
 namespace Model;
 
-class Book extends \PDO
+use Model\Abs\Model;
+use Model\Interfaces\ModelInterface;
+
+require_once __DIR__ . "/Model.php";
+require_once __DIR__ . "/ModelInterface.php";
+
+class Book extends Model implements ModelInterface
 {
-    private $pdo;
     public $tableName = "books";
 
-    public function __construct(){
-        #$ctt = json_decode(file_get_contents( __DIR__ . "./../../env.json"), true); # Conteúdo do env.json
-        $ctt = [
-            "host" => "127.0.0.1",
-            "user" => "root",
-            "pwd" => "1045",
-            "db" => "library",
-            "driver" => "mysql"
-        ];
-        $this->pdo = new \PDO("$ctt[driver]:dbname=$ctt[db];host=$ctt[host]", "$ctt[user]", "$ctt[pwd]");
-    }
-
-    public function select($where = array(), $fields = "*"){
-        $cond = [];
-        $where_str = "";
-        foreach($where as $w => $value){
-            $where_str .= " and ";
-            $where_str .= $w . " = :$w "; # As aspas são para evitar possível SQL Injection
-            $cond["$w"] = $value;
-        }
-
-        $sql = "SELECT $fields from $this->tableName where 1 $where_str";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($cond);
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
-
-    public function selectAll(){
-        $sql = "SELECT * from $this->tableName";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        return $result;
-    }
+    
 
     public function insert($data){
         $data = json_decode($data, true);
@@ -62,10 +33,7 @@ class Book extends \PDO
         $stmtConsult->execute();
 
         if($stmtConsult->fetchColumn() == 0){ # Se não estiver locado, será excluído
-            $sql = "DELETE FROM $this->tableName WHERE id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
-            $stmt->execute();
+            $this->deleteById($id);
         } else{
             $response->withStatus(500);
             $response->getBody()->write("Não é possível excluir um livro que está alocado!");

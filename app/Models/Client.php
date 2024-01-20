@@ -2,28 +2,15 @@
 
 namespace Model;
 
-class Client extends \PDO
+use Model\Abs\Model;
+use Model\Interfaces\ModelInterface;
+
+require_once __DIR__ . "/Model.php";
+require_once __DIR__ . "/ModelInterface.php";
+
+class Client extends Model implements ModelInterface # Usando herança para reaproveitar classe
 {
-    private $pdo;
     public $tableName = "clients";
-
-    public function __construct(){
-        #$ctt = json_decode(file_get_contents( __DIR__ . "./../../env.json"), true); # Conteúdo do env.json
-        $ctt = [
-            "host" => "127.0.0.1",
-            "user" => "root",
-            "pwd" => "1045",
-            "db" => "library",
-            "driver" => "mysql"
-        ];
-        $this->pdo = new \PDO("$ctt[driver]:dbname=$ctt[db];host=$ctt[host]", "$ctt[user]", "$ctt[pwd]");
-    }
-
-    public function selectAll(){
-        $stmt = $this->pdo->prepare("SELECT * FROM $this->tableName");
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
 
     public function insert($data){
         $data = json_decode($data, true);
@@ -67,10 +54,7 @@ class Client extends \PDO
         $stmtConsult->execute();
 
         if($stmtConsult->fetchColumn() == 0){ # Se não estiver locado, será excluído
-            $sql = "DELETE FROM $this->tableName WHERE id = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(":id", $id, \PDO::PARAM_INT);
-            $stmt->execute();
+            $this->deleteById($id);
         } else{
             $response->withStatus(500);
             $response->getBody()->write("Não é possível excluir um cliente que possui livro alocado!");
