@@ -1,8 +1,22 @@
 ## Plataforma de Gerenciamento de Bilbliotecas - Desafio Finnet
 
-## Como executar o projeto
+## Como instalar o projeto
 - Clone o repositório
 - Configure as variáveis de ambiente substituindo o arquivo env.json.example por env.json
+- Para configurar as variáveis de ambiente, acesse o arquivo env.json e configure as variáveis de acordo com o seguinte objeto:
+~~~JSON
+{
+    "host": "HOST_DO_SERVIDOR_MYSQL",
+    "user": "USUARIO_VÁLIDO",
+    "pwd": "SENHA_VÁLIDA",
+    "db": "library", 
+    "driver": "mysql"
+}
+
+Obs: db e driver não necessitam de alteração, pois é necessário que tenha o mysql instalado no servidor qual a aplicação irá se conectar.
+
+-
+~~~
 - instale as dependências via composer com o comando
 ~~~PHP
     composer install    
